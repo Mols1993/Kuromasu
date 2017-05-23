@@ -1,5 +1,6 @@
 package com.mols1993.kuromasu;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,16 +27,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-        int boardSize = 9;
-        Tile[][] board = new Tile[boardSize][boardSize];
-
-        //Fill board
-        for(int i = 0; i < boardSize; i++){
-            for(int j = 0; j < boardSize; j++){
-                board[i][j] = new Tile(j);
-            }
-        }
+        Board board = new Board(3, this);
+        board.regla1();
     }
 
     @Override
