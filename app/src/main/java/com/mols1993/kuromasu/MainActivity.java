@@ -26,6 +26,16 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        int boardSize = 9;
+        Tile[][] board = new Tile[boardSize][boardSize];
+
+        //Fill board
+        for(int i = 0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                board[i][j] = new Tile(j);
+            }
+        }
     }
 
     @Override
