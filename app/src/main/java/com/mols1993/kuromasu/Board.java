@@ -46,6 +46,43 @@ public class Board {
         return msje;
     }
 
+    public String regla3(){
+        Tile root = null;
+        String msje = "";
+        int blancas = 0, conectadas = 0;
+        for(int y = 0; y < boardSize; y++){
+            for(int x = 0; x < boardSize; x++){
+                if(board[x][y].getState() == 1){
+                    root = board[x][y];
+                    blancas++;
+                }
+            }
+        }
+        if(root != null) {
+            conectadas = root.getConexo(root, 0);
+        }
+
+        if(blancas != conectadas){
+            msje = "Existen fichas blancas desconectadas";
+        }
+
+        return msje;
+    }
+
+    public String regla4(){
+        String msje = "";
+        for(int y = 0; y < boardSize; y++){
+            for(int x = 0; x < boardSize; x++){
+                if(board[x][y].getState() == -1){
+                    if(board[x][y].getNegras()){
+                        msje = "Hay 2 fichas negras adyacentes en [" + x + ", " + y + "]";
+                    }
+                }
+            }
+        }
+        return msje;
+    }
+
     public int getSize(){
         return boardSize;
     }

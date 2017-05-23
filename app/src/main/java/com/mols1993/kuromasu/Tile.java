@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 
 public class Tile extends android.support.v7.widget.AppCompatImageButton{
     private int state = 0, number = 0, x = 0, y = 0;
+    boolean contado = false;
     private Tile top, bot, left, right;
     Board board;
     public Tile(int n, Board b, int x, int y, Context context){
@@ -103,8 +104,54 @@ public class Tile extends android.support.v7.widget.AppCompatImageButton{
         return count;
     }
 
+    public boolean getNegras(){
+        if(top != null){
+            if(top.getState() == -1){
+                return true;
+            }
+        }
+        if(right != null){
+            if(right.getState() == -1){
+                return true;
+            }
+        }
+        if(bot != null){
+            if(bot.getState() == -1){
+                return true;
+            }
+        }
+        if(left != null){
+            if(left.getState() == -1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getConexo(Tile tile, int counter){
+        counter++;
+        contado = true;
+        if(top != null && top.getState() == 1 && !top.counted()){
+            counter = getConexo(top, counter);
+        }
+        if(right != null && right.getState() == 1 && !right.counted()){
+            counter = getConexo(right, counter++);
+        }
+        if(bot != null && bot.getState() == 1 && !bot.counted()){
+            counter = getConexo(bot, counter++);
+        }
+        if(left != null && left.getState() == 1 && !left.counted()){
+            counter = getConexo(left, counter++);
+        }
+        return counter;
+    }
+
     private void updateColor() {
         //TO-DO
+    }
+
+    public boolean counted(){
+        return contado;
     }
 
     public String getCoords(){
