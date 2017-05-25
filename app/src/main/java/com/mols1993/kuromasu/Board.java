@@ -20,10 +20,41 @@ public class Board {
         //Fill board
         for(int i = 0; i < boardSize; i++){
             for(int j = 0; j < boardSize; j++){
-                board[i][j] = new Tile(j, this, i, j, context);
+                board[i][j] = new Tile(0, this, i, j, context);
                 if(board[i][j].getNumber() != 0){
                     fixedTiles.add(board[i][j]);
                 }
+            }
+        }
+        //Connect board
+        for(int i = 0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                Tile top = null, right = null, bot = null, left = null;
+                if(i == 0){
+                    top = null;
+                    bot = board[i+1][j];
+                }
+                else if(i < (boardSize - 1)){
+                    top = board[i-1][j];
+                    bot = board[i+1][j];
+                }
+                else if(i == (boardSize - 1)){
+                    top = board[i-1][j];
+                    bot = null;
+                }
+                if(j == 0){
+                    left = null;
+                    right = board[i][j+1];
+                }
+                else if(j < (boardSize - 1)){
+                    left = board[i][j-1];
+                    right = board[i][j+1];
+                }
+                else if(j == (boardSize - 1)){
+                    left = board[i][j-1];
+                    right = null;
+                }
+                board[i][j].setLinks(top, right, bot, left);
             }
         }
     }
@@ -59,11 +90,18 @@ public class Board {
             }
         }
         if(root != null) {
-            conectadas = root.getConexo(root, 0);
+            conectadas = root.getConexo(0);
+            msje = "Todas las blancas estan conectadas";
         }
 
         if(blancas != conectadas){
             msje = "Existen fichas blancas desconectadas";
+        }
+
+        for(int y = 0; y < boardSize; y++){
+            for(int x = 0; x < boardSize; x++){
+                board[x][y].contado = false;
+            }
         }
 
         return msje;
@@ -85,5 +123,9 @@ public class Board {
 
     public int getSize(){
         return boardSize;
+    }
+
+    public Tile getTile(int x, int y){
+        return board[x][y];
     }
 }
