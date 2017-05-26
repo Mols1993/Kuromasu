@@ -10,7 +10,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,14 +29,38 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final Board board = new Board(3, this);
-        drawBoard(board);
+        Vector<String> tablero = new Vector<String>();
+        int boardSize = 0;
+        Board board = null;
+
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(getAssets().open("Kuromasu9x9_01.txt")));
+            String receiveString;
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while ((receiveString = reader.readLine()) != null){
+                if(receiveString != ""){
+                    String[] r = receiveString.split(" ");
+                    boardSize = r.length;
+                    for(int i = 0; i < boardSize; i++){
+                        tablero.add(r[i]);
+                    }
+                    stringBuilder.append(r[0]);
+                }
+            }
+            board = new Board(boardSize, tablero, this);
+            drawBoard(board);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final Board finalBoard = board;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, board.regla3(), Snackbar.LENGTH_LONG)
+                Snackbar.make(view, finalBoard.regla3(), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

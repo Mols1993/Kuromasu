@@ -2,6 +2,7 @@ package com.mols1993.kuromasu;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.print.PrintAttributes;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,7 +14,7 @@ import android.widget.ImageButton;
  */
 
 public class Tile extends android.support.v7.widget.AppCompatButton{
-    private int state = 0, number = 0, x = 0, y = 0;
+    private int state = 0, number = 0, x = 0, y = 0, size = 0;
     public boolean contado = false;
     private Tile top, bot, left, right;
     Board board;
@@ -26,17 +27,27 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
      * @param y Y position in board
      * @param context IDK
      */
-    public Tile(int n, Board b, int x, int y, Context context){
+    public Tile(int n, Board b, int x, int y, Context context, int size){
         super(context);
         number = n;
         board = b;
         this.x = x;
         this.y = y;
+        this.size = size;
+        if((x + y)%2 == 0) {
+            setBackgroundColor(Color.parseColor("#777777"));
+        }
+        else {
+            setBackgroundColor(Color.parseColor("#878787"));
+        }
         if(number > 0){
             state = 1;
-            //setBackgroundColor(Color.parseColor("#905DDD"));
+            setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
         setText(String.valueOf(number));
+        if(number == 0){
+            setText(" ");
+        }
         setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -52,6 +63,8 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
                 return true;
             }
         });
+        setWidth(size);
+        setMinimumWidth(size);
     }
 
     /**
@@ -81,6 +94,7 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
         //Contar hacia arriba
         for(int j = y; j >= 0; j--){
             if(board.getColor(x, j) == 1){
+                Log.i("Contar", String.valueOf(board.getTile(x, j).getCoords()));
                 count++;
             }
             else{
@@ -90,6 +104,7 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
         //Contar hacia abajo
         for(int j = y; j < board.getSize(); j++){
             if(board.getColor(x, j) == 1){
+                Log.i("Contar", String.valueOf(board.getTile(x, j).getCoords()));
                 count++;
             }
             else{
@@ -99,6 +114,7 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
         //Contar hacia la derecha
         for(int i = x; i < board.getSize(); i++){
             if(board.getColor(i, y) == 1){
+                Log.i("Contar", String.valueOf(board.getTile(i, y).getCoords()));
                 count++;
             }
             else{
@@ -108,12 +124,15 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
         //Contar hacia la izquierda
         for(int i = x; i >= 0; i--){
             if(board.getColor(i, y) == 1){
+                Log.i("Contar", String.valueOf(board.getTile(i, y).getCoords()));
                 count++;
             }
             else{
                 break;
             }
         }
+        count = count -3;
+        Log.i("Contar", String.valueOf(count));
         return count;
     }
 
@@ -170,7 +189,12 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
             setBackgroundColor(Color.parseColor("#000000"));
         }
         else if(state == 0){
-            setBackgroundColor(Color.parseColor("#777777"));
+            if((x + y)%2 == 0) {
+                setBackgroundColor(Color.parseColor("#777777"));
+            }
+            else {
+                setBackgroundColor(Color.parseColor("#878787"));
+            }
         }
         else if(state == 1){
             setBackgroundColor(Color.parseColor("#FFFFFF"));

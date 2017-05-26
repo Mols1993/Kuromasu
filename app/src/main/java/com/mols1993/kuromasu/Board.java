@@ -1,8 +1,16 @@
 package com.mols1993.kuromasu;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
+import android.widget.Toast;
 
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -13,14 +21,32 @@ public class Board {
     Tile[][] board;
     Vector<Tile> fixedTiles;
     int boardSize;
-    public Board(int size, Context context) {
+    Vector<String> tablero;
+    Context context;
+    public Board(int size, Vector<String> tablero, Context context) {
         boardSize = size;
+        this.tablero = tablero;
+        this.context = context;
+
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point s = new Point();
+        display.getSize(s);
+        int width = s.x;
+        int height = s.y;
+        Log.i("Width", String.valueOf(width));
+
         board = new Tile[boardSize][boardSize];
         fixedTiles = new Vector<Tile>();
         //Fill board
         for(int i = 0; i < boardSize; i++){
             for(int j = 0; j < boardSize; j++){
-                board[i][j] = new Tile(0, this, i, j, context);
+                int value = 0;
+                if(!Objects.equals(tablero.get(i * boardSize + j), ".")){
+                    Log.i("Tablero", String.valueOf(tablero.get(i*boardSize + j)));
+                    value = Integer.parseInt(tablero.get(i * boardSize + j));
+                }
+                board[i][j] = new Tile(value, this, i, j, context, width/boardSize);
                 if(board[i][j].getNumber() != 0){
                     fixedTiles.add(board[i][j]);
                 }
@@ -64,13 +90,24 @@ public class Board {
     }
 
     public void checkReglas(){
-        //TO-DO
+        String error1 = regla1();
+        String error3 = regla3();
+        String error4 = regla4();
+        if(!error1.equals("")){
+            Toast.makeText(context, error1, Toast.LENGTH_SHORT).show();
+        }
+        else if(!error4.equals("")){
+            Toast.makeText(context, error4, Toast.LENGTH_SHORT).show();
+        }
+        else if(!error3.equals("")){
+            Toast.makeText(context, error3, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public String regla1(){
         String msje = "";
         for (Tile x : fixedTiles){
-            if(x.getBlancas() != x.getNumber()){
+            if(x.getBlancas() > x.getNumber()){
                 msje = "Problema en" + x.getCoords();
             }
         }
