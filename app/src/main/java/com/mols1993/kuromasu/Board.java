@@ -18,7 +18,7 @@ import java.util.Vector;
  */
 
 public class Board {
-    Tile[][] board;
+    Tile[][] board, solution;
     Vector<Tile> fixedTiles;
     int boardSize;
     Vector<String> tablero;
@@ -37,6 +37,8 @@ public class Board {
         Log.i("Width", String.valueOf(width));
 
         board = new Tile[boardSize][boardSize];
+        solution = new Tile[boardSize][boardSize];
+
         fixedTiles = new Vector<Tile>();
         //Fill board
         for(int i = 0; i < boardSize; i++){
@@ -52,6 +54,28 @@ public class Board {
                 }
             }
         }
+        for(int i = 0; i < (boardSize * boardSize); i++){
+            tablero.remove(0);
+        }
+
+        for(int i = 0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                int value = 0;
+                if(tablero.get(i * boardSize + j).equals("B")){
+                    solution[i][j] = new Tile(value, this, i, j, context, width/boardSize);
+                    solution[i][j].setState(1);
+                }
+                else if(tablero.get(i * boardSize + j).equals("N")){
+                    solution[i][j] = new Tile(value, this, i, j, context, width/boardSize);
+                    solution[i][j].setState(-1);
+                }
+                else{
+                    value = Integer.parseInt(tablero.get(i * boardSize + j));
+                    solution[i][j] = new Tile(value, this, i, j, context, width/boardSize);
+                }
+            }
+        }
+
         //Connect board
         for(int i = 0; i < boardSize; i++){
             for(int j = 0; j < boardSize; j++){
@@ -89,7 +113,11 @@ public class Board {
         return board[i][j].getState();
     }
 
-    public void checkReglas(){
+    public boolean checkReglas(){
+        if(winCondition()){
+            Toast.makeText(context, "A WINRAR IS YOU", Toast.LENGTH_SHORT).show();
+            return true;
+        }
         String error1 = regla1();
         String error3 = regla3();
         String error4 = regla4();
@@ -102,6 +130,19 @@ public class Board {
         else if(!error3.equals("")){
             Toast.makeText(context, error3, Toast.LENGTH_SHORT).show();
         }
+        return false;
+    }
+
+    public boolean winCondition(){
+        boolean ret = false;
+        for(int i = 0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                if(!(board[i][j].getState() == solution[i][j].getState())){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public String regla1(){
@@ -128,7 +169,7 @@ public class Board {
         }
         if(root != null) {
             conectadas = root.getConexo(0);
-            msje = "Todas las blancas estan conectadas";
+            //msje = "Todas las blancas estan conectadas";
         }
 
         if(blancas != conectadas){

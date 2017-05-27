@@ -201,6 +201,11 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
         }
     }
 
+    public void setState(int newState){
+        state = newState;
+        updateColor();
+    }
+
     public boolean counted(){
         return contado;
     }
