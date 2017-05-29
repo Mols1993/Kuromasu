@@ -36,6 +36,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mols1993.kuromasu.LevelSelect" />
         </activity>
+        <activity
+            android:name=".Instructions"
+            android:label="@string/title_activity_instructions"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mols1993.kuromasu.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

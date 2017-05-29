@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Objects;
@@ -22,8 +23,8 @@ public class Board {
     Vector<Tile> fixedTiles;
     int boardSize;
     Vector<String> tablero;
-    Context context;
-    public Board(int size, Vector<String> tablero, Context context) {
+    LevelActivity context;
+    public Board(int size, Vector<String> tablero, LevelActivity context) {
         boardSize = size;
         this.tablero = tablero;
         this.context = context;
@@ -46,9 +47,26 @@ public class Board {
                 int value = 0;
                 if(!Objects.equals(tablero.get(i * boardSize + j), ".")){
                     Log.i("Tablero", String.valueOf(tablero.get(i*boardSize + j)));
-                    value = Integer.parseInt(tablero.get(i * boardSize + j));
+                    //value = Integer.parseInt(tablero.get(i * boardSize + j));
+                    String val = tablero.get(i * boardSize + j);
+                    if(val.equals("N")){
+                        value = 0;
+                        board[i][j] = new Tile(value, this, i, j, context, width/boardSize);
+                        board[i][j].setState(-1);
+                    }
+                    else if(val.equals("B")){
+                        value = 0;
+                        board[i][j] = new Tile(value, this, i, j, context, width/boardSize);
+                        board[i][j].setState(1);
+                    }
+                    else{
+                        value = Integer.parseInt(tablero.get(i * boardSize + j));
+                        board[i][j] = new Tile(value, this, i, j, context, width/boardSize);
+                    }
                 }
-                board[i][j] = new Tile(value, this, i, j, context, width/boardSize);
+                else{
+                    board[i][j] = new Tile(value, this, i, j, context, width/boardSize);
+                }
                 if(board[i][j].getNumber() != 0){
                     fixedTiles.add(board[i][j]);
                 }
@@ -114,21 +132,26 @@ public class Board {
     }
 
     public boolean checkReglas(){
+        context.setStatusText("");
         if(winCondition()){
-            Toast.makeText(context, "A WINRAR IS YOU", Toast.LENGTH_SHORT).show();
+            context.setStatusText("A WINNER IS YOU");
+            //Toast.makeText(context, "A WINRAR IS YOU", Toast.LENGTH_SHORT).show();
             return true;
         }
         String error1 = regla1();
         String error3 = regla3();
         String error4 = regla4();
         if(!error1.equals("")){
-            Toast.makeText(context, error1, Toast.LENGTH_SHORT).show();
+            context.setStatusText(error1);
+            //Toast.makeText(context, error1, Toast.LENGTH_SHORT).show();
         }
         else if(!error4.equals("")){
-            Toast.makeText(context, error4, Toast.LENGTH_SHORT).show();
+            context.setStatusText(error4);
+            //Toast.makeText(context, error4, Toast.LENGTH_SHORT).show();
         }
         else if(!error3.equals("")){
-            Toast.makeText(context, error3, Toast.LENGTH_SHORT).show();
+            context.setStatusText(error3);
+            //Toast.makeText(context, error3, Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -169,7 +192,6 @@ public class Board {
         }
         if(root != null) {
             conectadas = root.getConexo(0);
-            //msje = "Todas las blancas estan conectadas";
         }
 
         if(blancas != conectadas){
@@ -197,6 +219,10 @@ public class Board {
             }
         }
         return msje;
+    }
+
+    public Tile[][] getSolution(){
+        return solution;
     }
 
     public int getSize(){

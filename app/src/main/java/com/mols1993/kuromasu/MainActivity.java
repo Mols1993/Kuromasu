@@ -29,77 +29,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        /*
-        Vector<String> tablero = new Vector<String>();
-        int boardSize = 0;
-        Board board = null;
-
-        try{
-            BufferedReader reader = new BufferedReader(new InputStreamReader(getAssets().open("Kuromasu9x9_01.txt")));
-            String receiveString;
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while ((receiveString = reader.readLine()) != null){
-                if(!receiveString.equals("")){
-                    String[] r = receiveString.split(" ");
-                    boardSize = r.length;
-                    for(int i = 0; i < boardSize; i++){
-                        tablero.add(r[i]);
-                    }
-                    stringBuilder.append(r[0]);
-                }
-            }
-            board = new Board(boardSize, tablero, this);
-            drawBoard(board);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        */
     }
-
-    /*
-    public void drawBoard(Board board){
-        int bSize = board.getSize();
-        LinearLayout baseLayout = (LinearLayout) findViewById(R.id.mainLayout);
-        baseLayout.removeAllViews();
-        for(int i = 0; i < bSize; i++){
-            LinearLayout ll = new LinearLayout(this);
-            for(int j = 0; j < bSize; j++){
-                ll.addView(board.getTile(i, j));
-                Log.i("Tile", String.valueOf(board.getTile(i, j)));
-            }
-            baseLayout.addView(ll);
-        }
-    }
-    */
 
     public void onClick(View v){
-        Log.i("Click", String.valueOf(v.getId()));
         Intent intent = new Intent(this, LevelSelect.class);
         startActivity(intent);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void toInstructions(View v){
+        Intent intent = new Intent(this, Instructions.class);
+        startActivity(intent);
     }
 }
