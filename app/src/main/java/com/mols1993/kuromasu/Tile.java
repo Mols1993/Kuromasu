@@ -211,7 +211,7 @@ public class Tile extends android.support.v7.widget.AppCompatButton{
     }
 
     public String getCoords(){
-        return "[" + x + ", " + y + "]";
+        return "[" + (x+1) + ", " + (y+1) + "]";
     }
 
     public int getNumber(){

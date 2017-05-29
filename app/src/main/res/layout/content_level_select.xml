@@ -196,9 +196,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="save.txt"
             android:onClick="onClick"
-            android:text="Load save"
-            android:contentDescription="save.txt"/>
+            android:text="Cargar Partida" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
