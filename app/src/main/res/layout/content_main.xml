@@ -24,6 +24,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/kuromasulogo" />
+
         <Button
             android:id="@+id/btnLevelSelect"
             android:layout_width="match_parent"
@@ -40,4 +47,5 @@
             android:onClick="toInstructions"
             android:text="Instrucciones" />
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
