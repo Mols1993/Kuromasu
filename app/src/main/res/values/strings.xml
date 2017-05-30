@@ -4,4 +4,6 @@
     <string name="title_activity_level_select">LevelSelect</string>
     <string name="title_activity_level">LevelActivity</string>
     <string name="title_activity_instructions">Instructions</string>
+    <string name="instrucciones">Instrucciones</string>
+    <string name="seleccionar_nivel">Seleccionar Nivel</string>
 </resources>
