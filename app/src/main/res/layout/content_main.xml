@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onClick"
-            android:text="Seleccionar Nivel" />
+            android:text="@string/seleccionar_nivel" />
 
         <Button
             android:id="@+id/btnInstructions"
@@ -38,6 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="toInstructions"
-            android:text="Instrucciones" />
+            android:text="@string/instrucciones" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
