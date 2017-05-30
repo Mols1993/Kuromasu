@@ -134,8 +134,7 @@ public class Board {
     public boolean checkReglas(){
         context.setStatusText("");
         if(winCondition()){
-            context.setStatusText("A WINNER IS YOU");
-            //Toast.makeText(context, "A WINRAR IS YOU", Toast.LENGTH_SHORT).show();
+            context.setStatusText("¡¡Ganaste!!");
             return true;
         }
         String error1 = regla1();
@@ -143,15 +142,13 @@ public class Board {
         String error4 = regla4();
         if(!error1.equals("")){
             context.setStatusText(error1);
-            //Toast.makeText(context, error1, Toast.LENGTH_SHORT).show();
+
         }
         else if(!error4.equals("")){
             context.setStatusText(error4);
-            //Toast.makeText(context, error4, Toast.LENGTH_SHORT).show();
         }
         else if(!error3.equals("")){
             context.setStatusText(error3);
-            //Toast.makeText(context, error3, Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -213,7 +210,7 @@ public class Board {
             for(int x = 0; x < boardSize; x++){
                 if(board[x][y].getState() == -1){
                     if(board[x][y].getNegras()){
-                        msje = "Hay 2 fichas negras adyacentes en [" + x + ", " + y + "]";
+                        msje = "Hay 2 fichas negras adyacentes en [" + (x+1) + ", " + (y+1) + "]";
                     }
                 }
             }
